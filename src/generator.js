@@ -70,7 +70,7 @@ ${answersSection}
 
 Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description, customer context, and developer clarifications above.`;
 
-  const message = await client.messages.create({
+  const stream = client.messages.stream({
     model: 'claude-opus-4-5',
     max_tokens: 32000,
     system: [
@@ -83,6 +83,7 @@ Generate the complete, valid, importable DevonWay module XML. Include all fields
     messages: [{ role: 'user', content: userMessage }],
   });
 
+  const message = await stream.finalMessage();
   const raw = message.content[0].text.trim();
 
   // Extract XML from the response (Claude should output only XML, but just in case)

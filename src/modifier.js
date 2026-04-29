@@ -4,7 +4,7 @@ const { SYSTEM_PROMPT_BASE } = require('./generatorPrompt');
 const client = new Anthropic();
 
 async function modifyModule(xmlContent, changeDescription, answers) {
-  const message = await client.messages.create({
+  const stream = client.messages.stream({
     model: 'claude-opus-4-5',
     max_tokens: 32000,
     system: [
@@ -54,6 +54,7 @@ Apply the changes and return the complete modified XML plus manual steps as inst
     ],
   });
 
+  const message = await stream.finalMessage();
   const raw = message.content[0].text;
 
   const xmlMatch = raw.match(/<MODIFIED_XML>([\s\S]*?)<\/MODIFIED_XML>/);
