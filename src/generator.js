@@ -428,6 +428,7 @@ async function generateModule(params) {
     sourceArea,
     reportingAuthorityCode,
     subscriberRoles,
+    customerContext,
   } = params;
 
   const now = new Date();
@@ -436,6 +437,25 @@ async function generateModule(params) {
   const rolesFormatted = subscriberRoles
     .map(r => `- ${r.code}: ${r.name}`)
     .join('\n');
+
+  let customerSection = '';
+  if (customerContext && customerContext.scraped) {
+    const c = customerContext;
+    customerSection = `
+Customer Context (use this to choose realistic, industry-appropriate field names, picklist values, and workflow stages):
+- Customer: ${c.name}
+- Industry: ${c.industry}
+- Description: ${c.description}
+- Relevant Regulations/Standards: ${(c.regulations || []).join(', ')}
+- Industry Terminology (use for picklist values and field labels): ${(c.terminology || []).join(', ')}
+- Suggested Fields for this Industry/Module:
+${(c.commonFields || []).map(f => `  * ${f.name} (${f.type}): ${f.description}`).join('\n')}
+- Suggested Workflow Stages: ${(c.workflowStages || []).join(' → ')}
+
+Incorporate this customer context to make field labels, picklist options, workflow stage names, and business rules feel native to this customer's industry rather than generic.`;
+  } else if (customerContext && customerContext.name) {
+    customerSection = `\nCustomer: ${customerContext.name} (no additional industry data available — use your knowledge of this company to inform field design)`;
+  }
 
   const userMessage = `Generate a complete DevonWay module XML definition with these parameters:
 
@@ -450,11 +470,11 @@ Export Date: ${exportDate}
 
 Subscriber Roles:
 ${rolesFormatted}
-
+${customerSection}
 Functional Description:
 ${description}
 
-Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description.`;
+Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description and customer context.`;
 
   const message = await client.messages.create({
     model: 'claude-opus-4-5',

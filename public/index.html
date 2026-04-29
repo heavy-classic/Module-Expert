@@ -415,9 +415,13 @@
 
   <form id="form">
 
-    <!-- Description -->
+    <!-- Customer + Description -->
     <div class="card">
       <div class="card-title">Module Description</div>
+      <div class="field-group" style="margin-bottom:16px;">
+        <label for="customerName">Customer Name <span class="hint">optional — used to tailor fields to the customer's industry</span></label>
+        <input type="text" id="customerName" name="customerName" placeholder="e.g. Pacific Gas and Electric, Mayo Clinic, Boeing">
+      </div>
       <div class="field-group">
         <label for="description">What should this module do? <span class="required">*</span></label>
         <textarea id="description" name="description" placeholder="Describe the module's purpose, the data it captures, its workflow process, any business rules, required fields, picklist values, references to other modules, etc. The more detail you provide, the better the generated module will be."></textarea>
@@ -566,6 +570,7 @@ renderRoles(defaultRoles);
 document.getElementById('form').addEventListener('submit', async e => {
   e.preventDefault();
 
+  const customerName = document.getElementById('customerName').value.trim();
   const description = document.getElementById('description').value.trim();
   const moduleName = document.getElementById('moduleName').value.trim();
   const moduleCode = document.getElementById('moduleCode').value.trim();
@@ -592,7 +597,7 @@ document.getElementById('form').addEventListener('submit', async e => {
     const resp = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ description, moduleName, moduleCode, identifierPrefix, category, hasWorkflow, sourceArea, reportingAuthorityCode, subscriberRoles }),
+      body: JSON.stringify({ customerName, description, moduleName, moduleCode, identifierPrefix, category, hasWorkflow, sourceArea, reportingAuthorityCode, subscriberRoles }),
     });
 
     if (!resp.ok) {

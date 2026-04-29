@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
 const { generateModule } = require('./src/generator');
+const { researchCustomer } = require('./src/researcher');
 const { sendUsageNotification } = require('./src/mailer');
 
 const app = express();
@@ -31,6 +32,7 @@ app.post('/generate', (req, res) => {
     sourceArea,
     reportingAuthorityCode,
     subscriberRoles,
+    customerName,
   } = req.body;
 
   if (!description || !description.trim()) return res.status(400).json({ error: 'Description is required.' });
@@ -64,6 +66,7 @@ app.post('/generate', (req, res) => {
           { code: 'INVK-D', name: 'Debug' },
           { code: 'INVK-P', name: 'Participant' },
         ],
+    customerName: (customerName || '').trim(),
   };
 
   runJob(jobId, params, ip, userAgent).catch(err => {
@@ -75,7 +78,14 @@ app.post('/generate', (req, res) => {
 async function runJob(jobId, params, ip, userAgent) {
   console.log(`[${jobId}] Generating module: ${params.moduleCode} — ${params.moduleName}`);
 
-  const xml = await generateModule(params);
+  let customerContext = null;
+  if (params.customerName) {
+    console.log(`[${jobId}] Researching customer: ${params.customerName}`);
+    customerContext = await researchCustomer(params.customerName, params.moduleName);
+    console.log(`[${jobId}] Customer research done — scraped: ${customerContext.scraped}`);
+  }
+
+  const xml = await generateModule({ ...params, customerContext });
   const filename = `Module.${params.moduleCode}.xml`;
 
   jobs[jobId] = {
