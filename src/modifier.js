@@ -47,9 +47,14 @@ async function modifyModule(xmlContent, changeDescription, answers) {
   const xmlEnd = rawXml.lastIndexOf('</SubscriberModule>');
 
   if (xmlEnd === -1) {
-    console.error('[modifier] xml head:', rawXml.slice(0, 500));
-    console.error('[modifier] xml tail:', rawXml.slice(-500));
-    throw new Error('Model did not return a complete SubscriberModule XML. It may have been truncated.');
+    const stopReason = xmlMessage.stop_reason;
+    const outputTokens = xmlMessage.usage?.output_tokens;
+    const head = rawXml.slice(0, 400);
+    const tail = rawXml.slice(-200);
+    throw new Error(
+      `stop_reason=${stopReason} | output_tokens=${outputTokens} | ` +
+      `head: ${head} ...tail: ${tail}`
+    );
   }
 
   const xml = rawXml.substring(xmlStart, xmlEnd + '</SubscriberModule>'.length).trim();
