@@ -23,7 +23,9 @@ async function modifyModule(xmlContent, changeDescription, answers) {
     ? `\nDeveloper clarifications:\n${answers.map(a => `Q: ${a.question}\nA: ${a.answer}`).join('\n\n')}`
     : '';
 
-  // Step 1: generate the modified XML only
+  const XML_PREFILL = '<?xml version="1.0" encoding="UTF-8"?>';
+
+  // Step 1: generate the modified XML only, prefilling the response to prevent preamble
   const xmlStream = client.messages.stream({
     model: 'claude-sonnet-4-6',
     max_tokens: 32000,
@@ -36,14 +38,19 @@ async function modifyModule(xmlContent, changeDescription, answers) {
         role: 'user',
         content: `Here is the existing module XML:\n\n${xmlContent}\n\nRequested changes:\n${changeDescription}${answersSection}\n\nOutput the complete modified XML now.`,
       },
+      {
+        role: 'assistant',
+        content: XML_PREFILL,
+      },
     ],
   });
 
   const xmlMessage = await xmlStream.finalMessage();
   console.log('[modifier] xml stop_reason:', xmlMessage.stop_reason, '| output tokens:', xmlMessage.usage?.output_tokens);
 
-  const rawXml = xmlMessage.content[0].text.trim();
-  const xmlStart = rawXml.indexOf('<?xml') !== -1 ? rawXml.indexOf('<?xml') : rawXml.indexOf('<SubscriberModule>');
+  // Prepend the prefill since the model continues from it
+  const rawXml = (XML_PREFILL + xmlMessage.content[0].text).trim();
+  const xmlStart = rawXml.indexOf('<?xml');
   const xmlEnd = rawXml.lastIndexOf('</SubscriberModule>');
 
   if (xmlEnd === -1) {

@@ -70,6 +70,8 @@ ${answersSection}
 
 Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description, customer context, and developer clarifications above.`;
 
+  const XML_PREFILL = '<?xml version="1.0" encoding="UTF-8"?>';
+
   const stream = client.messages.stream({
     model: 'claude-sonnet-4-6',
     max_tokens: 32000,
@@ -80,11 +82,14 @@ Generate the complete, valid, importable DevonWay module XML. Include all fields
         cache_control: { type: 'ephemeral' },
       },
     ],
-    messages: [{ role: 'user', content: userMessage }],
+    messages: [
+      { role: 'user', content: userMessage },
+      { role: 'assistant', content: XML_PREFILL },
+    ],
   });
 
   const message = await stream.finalMessage();
-  const raw = message.content[0].text.trim();
+  const raw = (XML_PREFILL + message.content[0].text).trim();
 
   // Extract XML from the response (Claude should output only XML, but just in case)
   const xmlStart = raw.indexOf('<?xml');
