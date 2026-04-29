@@ -45,6 +45,11 @@ Incorporate this customer context to make field labels, picklist options, workfl
     customerSection = `\nCustomer: ${customerContext.name} (no additional industry data available — use your knowledge of this company to inform field design)`;
   }
 
+  let answersSection = '';
+  if (Array.isArray(params.answers) && params.answers.length > 0) {
+    answersSection = `\n\nDeveloper clarifications (incorporate these into the design):\n${params.answers.map(a => `Q: ${a.question}\nA: ${a.answer}`).join('\n\n')}`;
+  }
+
   const userMessage = `Generate a complete DevonWay module XML definition with these parameters:
 
 Module Name: ${moduleName}
@@ -61,8 +66,9 @@ ${rolesFormatted}
 ${customerSection}
 Functional Description:
 ${description}
+${answersSection}
 
-Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description and customer context.`;
+Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description, customer context, and developer clarifications above.`;
 
   const message = await client.messages.create({
     model: 'claude-opus-4-5',

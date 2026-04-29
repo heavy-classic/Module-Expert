@@ -17,371 +17,172 @@
     --white: #FFFFFF;
     --green: #059669;
     --red: #DC2626;
+    --amber: #D97706;
     --radius: 10px;
     --shadow: 0 4px 24px rgba(0,0,0,0.10);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
-    background: #F0F4FB;
-    color: var(--text);
-    min-height: 100vh;
-  }
+  body { font-family: -apple-system,'Segoe UI',system-ui,sans-serif; background: #F0F4FB; color: var(--text); min-height: 100vh; }
 
   header {
     background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, #1a5fb4 100%);
-    color: white;
-    padding: 0 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    color: white; padding: 0 32px; display: flex; align-items: center; height: 64px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 100;
   }
-
   .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-icon {
-    width: 36px; height: 36px;
-    background: var(--blue);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
+  .logo-icon { width: 36px; height: 36px; background: var(--blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
   .logo-text { font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
   .logo-sub { font-size: 11px; opacity: 0.65; margin-top: 1px; letter-spacing: 0.05em; text-transform: uppercase; }
 
-  main {
-    max-width: 820px;
-    margin: 0 auto;
-    padding: 36px 24px 64px;
-  }
+  main { max-width: 820px; margin: 0 auto; padding: 36px 24px 64px; }
 
   /* Tabs */
-  .tabs {
-    display: flex;
-    gap: 4px;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 5px;
-    margin-bottom: 28px;
-    box-shadow: var(--shadow);
-  }
-
-  .tab-btn {
-    flex: 1;
-    padding: 11px 20px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    background: transparent;
-    color: var(--muted);
-    transition: all 0.15s;
-    letter-spacing: 0.01em;
-  }
-
-  .tab-btn.active {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-    color: white;
-    box-shadow: 0 2px 8px rgba(0,115,230,0.25);
-  }
-
-  .tab-btn:not(.active):hover {
-    background: var(--blue-light);
-    color: var(--navy);
-  }
+  .tabs { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 5px; margin-bottom: 28px; box-shadow: var(--shadow); }
+  .tab-btn { flex: 1; padding: 11px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: var(--muted); transition: all 0.15s; }
+  .tab-btn.active { background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%); color: white; box-shadow: 0 2px 8px rgba(0,115,230,0.25); }
+  .tab-btn:not(.active):hover { background: var(--blue-light); color: var(--navy); }
 
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  .page-title {
-    font-size: 26px;
-    font-weight: 900;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
+  .page-title { font-size: 26px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+  .page-sub { font-size: 15px; color: var(--muted); margin-bottom: 24px; }
 
-  .page-sub {
-    font-size: 15px;
-    color: var(--muted);
-    margin-bottom: 24px;
-  }
+  /* Cards */
+  .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; margin-bottom: 20px; box-shadow: var(--shadow); }
+  .card-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 20px; }
 
-  .card {
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-  }
-
-  .card-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .field-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
+  /* Fields */
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .field-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
-
-  .field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
   .field-group.full { grid-column: 1 / -1; }
-
-  label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--navy);
-  }
-
+  label { font-size: 13px; font-weight: 600; color: var(--navy); }
   label .required { color: var(--red); margin-left: 2px; }
   label .hint { font-weight: 400; color: var(--muted); font-size: 12px; margin-left: 6px; }
 
-  input[type="text"],
-  input[type="file"],
-  select,
-  textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    color: var(--text);
-    background: var(--white);
-    transition: border-color 0.15s, box-shadow 0.15s;
-    outline: none;
+  input[type="text"], input[type="file"], select, textarea {
+    width: 100%; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: inherit; color: var(--text); background: var(--white);
+    transition: border-color 0.15s, box-shadow 0.15s; outline: none;
   }
+  input[type="file"] { padding: 8px 12px; cursor: pointer; }
+  input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,115,230,0.12); }
+  input[type="text"].mono { font-family: 'SF Mono','Fira Code',monospace; font-size: 13px; letter-spacing: 0.04em; }
+  textarea { resize: vertical; min-height: 160px; line-height: 1.6; }
 
-  input[type="file"] {
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-
-  input[type="text"]:focus,
-  select:focus,
-  textarea:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(0,115,230,0.12);
-  }
-
-  input[type="text"].mono {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 13px;
-    letter-spacing: 0.04em;
-  }
-
-  textarea {
-    resize: vertical;
-    min-height: 160px;
-    line-height: 1.6;
-  }
-
-  /* Toggle switch */
+  /* Toggle */
   .toggle-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; }
   .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
   .toggle input { display: none; }
-  .toggle-track {
-    position: absolute; inset: 0;
-    background: #CBD5E1;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .toggle-track::after {
-    content: '';
-    position: absolute;
-    left: 3px; top: 3px;
-    width: 18px; height: 18px;
-    background: white;
-    border-radius: 50%;
-    transition: transform 0.2s;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-  }
+  .toggle-track { position: absolute; inset: 0; background: #CBD5E1; border-radius: 12px; cursor: pointer; transition: background 0.2s; }
+  .toggle-track::after { content: ''; position: absolute; left: 3px; top: 3px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .toggle input:checked + .toggle-track { background: var(--blue); }
   .toggle input:checked + .toggle-track::after { transform: translateX(20px); }
   .toggle-label { font-size: 14px; font-weight: 600; color: var(--text); }
 
-  /* Roles editor */
+  /* Roles */
   .roles-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
   .role-row { display: flex; align-items: center; gap: 10px; }
   .role-row input { flex: 1; }
-  .role-row button {
-    background: none; border: none;
-    color: var(--muted); cursor: pointer;
-    font-size: 16px; padding: 4px;
-    border-radius: 4px;
-    transition: color 0.15s, background 0.15s;
-    line-height: 1;
-  }
+  .role-row button { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px; border-radius: 4px; transition: color 0.15s, background 0.15s; line-height: 1; }
   .role-row button:hover { color: var(--red); background: #FEF2F2; }
-
-  .add-role-btn {
-    font-size: 13px;
-    color: var(--blue);
-    background: none;
-    border: 1.5px dashed var(--blue-mid);
-    border-radius: 8px;
-    padding: 8px 14px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.15s, border-color 0.15s;
-    width: 100%;
-    text-align: center;
-  }
+  .add-role-btn { font-size: 13px; color: var(--blue); background: none; border: 1.5px dashed var(--blue-mid); border-radius: 8px; padding: 8px 14px; cursor: pointer; font-weight: 600; transition: background 0.15s, border-color 0.15s; width: 100%; text-align: center; }
   .add-role-btn:hover { background: var(--blue-light); border-color: var(--blue); }
 
-  /* Submit button */
-  .submit-btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: opacity 0.15s, transform 0.1s;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 16px rgba(0,115,230,0.3);
-  }
+  /* Buttons */
+  .submit-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 800; cursor: pointer; transition: opacity 0.15s, transform 0.1s; letter-spacing: 0.02em; box-shadow: 0 4px 16px rgba(0,115,230,0.3); }
   .submit-btn:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
   .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .back-link { display: block; text-align: center; margin-top: 14px; font-size: 14px; color: var(--muted); cursor: pointer; background: none; border: none; font-family: inherit; }
+  .back-link:hover { color: var(--navy); }
 
-  /* Status panels */
-  .status-panel {
-    display: none;
-    background: var(--white);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 28px;
-    margin-top: 20px;
-    box-shadow: var(--shadow);
-    text-align: center;
-  }
+  /* Progress panel */
+  .progress-panel { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
 
-  .status-icon { font-size: 40px; margin-bottom: 12px; }
-  .status-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
-  .status-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
-
-  .spinner {
-    display: inline-block;
-    width: 36px; height: 36px;
-    border: 3px solid var(--blue-mid);
-    border-top-color: var(--blue);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin-bottom: 12px;
-  }
+  /* Spinner state */
+  .spinner-state { text-align: center; padding: 48px 32px; }
+  .spinner { display: inline-block; width: 40px; height: 40px; border: 3px solid var(--blue-mid); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .spinner-sub { font-size: 14px; color: var(--muted); }
 
-  .download-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    text-decoration: none;
-    transition: opacity 0.15s;
-    box-shadow: 0 4px 12px rgba(5,150,105,0.25);
-  }
+  /* Questions */
+  .questions-intro { padding: 24px 28px; border-bottom: 1px solid var(--border); background: var(--blue-light); }
+  .qi-icon { font-size: 32px; margin-bottom: 10px; }
+  .qi-title { font-size: 20px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+  .qi-sub { font-size: 14px; color: var(--muted); }
+  .questions-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 20px; }
+  .question-card { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .question-header { background: linear-gradient(135deg, var(--navy-dark), var(--navy)); color: white; padding: 14px 20px; }
+  .question-num { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.6; margin-bottom: 6px; }
+  .question-text { font-size: 15px; font-weight: 700; line-height: 1.4; }
+  .question-meta { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--border); }
+  .question-meta-block { padding: 14px 16px; }
+  .question-meta-block:first-child { border-right: 1px solid var(--border); }
+  .question-meta-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue); margin-bottom: 6px; }
+  .question-meta-text { font-size: 13px; color: var(--text); line-height: 1.55; }
+  .question-answer-section { padding: 14px 16px; background: #FAFBFF; }
+  .question-answer-label { display: block; font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .question-answer { min-height: 90px; font-size: 13px; line-height: 1.6; border-color: var(--blue-mid); }
+  .questions-footer { padding: 24px 28px; border-top: 1px solid var(--border); }
+
+  /* Done state */
+  .done-state { padding: 36px 28px; text-align: center; }
+  .done-icon { font-size: 44px; margin-bottom: 12px; }
+  .done-title { font-size: 20px; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+  .done-sub { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .download-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: var(--green); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; transition: opacity 0.15s; box-shadow: 0 4px 12px rgba(5,150,105,0.25); }
   .download-btn:hover { opacity: 0.9; }
 
-  .error-box {
-    background: #FEF2F2;
-    border: 1px solid #FECACA;
-    border-radius: 8px;
-    padding: 16px;
-    color: var(--red);
-    font-size: 14px;
-    text-align: left;
-    margin-top: 12px;
-  }
+  /* Docs CTA (after generate/modify) */
+  .docs-cta { margin-top: 24px; padding: 20px; background: var(--blue-light); border: 1.5px solid var(--blue-mid); border-radius: 10px; text-align: left; }
+  .docs-cta-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .docs-cta-row { display: flex; gap: 10px; align-items: stretch; }
+  .docs-cta-row input { flex: 1; }
+  .docs-cta-btn { padding: 10px 20px; background: var(--navy); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: opacity 0.15s; }
+  .docs-cta-btn:hover:not(:disabled) { opacity: 0.85; }
+  .docs-cta-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  #g-docs-status, #m-docs-status { margin-top: 12px; }
 
-  /* Manual steps panel */
-  .steps-panel {
-    margin-top: 20px;
-    text-align: left;
-  }
-
-  .steps-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    background: var(--blue-light);
-    border: 1.5px solid var(--blue-mid);
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    user-select: none;
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--navy);
-    transition: background 0.15s;
-  }
-
+  /* Manual steps */
+  .steps-panel { margin-top: 20px; text-align: left; }
+  .steps-toggle { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; background: var(--blue-light); border: 1.5px solid var(--blue-mid); border-radius: 8px 8px 0 0; cursor: pointer; user-select: none; font-weight: 700; font-size: 14px; color: var(--navy); transition: background 0.15s; }
   .steps-toggle:hover { background: var(--blue-mid); }
-
-  .steps-toggle-arrow {
-    font-size: 12px;
-    transition: transform 0.2s;
-  }
-
+  .steps-toggle-arrow { font-size: 12px; transition: transform 0.2s; }
   .steps-toggle.open .steps-toggle-arrow { transform: rotate(180deg); }
-
-  .steps-body {
-    display: none;
-    border: 1.5px solid var(--blue-mid);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    padding: 20px;
-    background: var(--white);
-  }
-
+  .steps-body { display: none; border: 1.5px solid var(--blue-mid); border-top: none; border-radius: 0 0 8px 8px; padding: 20px; background: var(--white); }
   .steps-body.open { display: block; }
+  .steps-body pre { font-family: -apple-system,'Segoe UI',system-ui,sans-serif; font-size: 14px; line-height: 1.7; white-space: pre-wrap; word-break: break-word; color: var(--text); }
 
-  .steps-body pre {
-    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
-    font-size: 14px;
-    line-height: 1.7;
-    white-space: pre-wrap;
-    word-break: break-word;
-    color: var(--text);
-  }
+  /* Docs results */
+  .docs-results { padding: 28px; text-align: left; }
+  .docs-results-title { font-size: 18px; font-weight: 800; color: var(--navy); margin-bottom: 6px; }
+  .docs-results-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+  .docs-file-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .docs-file { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 8px; background: #FAFBFF; }
+  .docs-file-icon { font-size: 20px; flex-shrink: 0; }
+  .docs-file-info { flex: 1; }
+  .docs-file-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .docs-file-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .docs-file-dl { font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; flex-shrink: 0; }
+  .docs-file-dl:hover { text-decoration: underline; }
+  .docs-dl-all { display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; background: var(--navy); color: white; border-radius: 8px; font-size: 14px; font-weight: 700; text-decoration: none; transition: opacity 0.15s; }
+  .docs-dl-all:hover { opacity: 0.88; }
+
+  /* Error */
+  .error-state { padding: 32px 28px; text-align: center; }
+  .error-box { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 16px; color: var(--red); font-size: 14px; text-align: left; margin-top: 12px; }
 
   @media (max-width: 600px) {
     .field-grid, .field-grid.three-col { grid-template-columns: 1fr; }
     header { padding: 0 16px; }
     main { padding: 20px 16px 48px; }
-    .card { padding: 20px; }
+    .card, .progress-panel .questions-body { padding: 16px; }
+    .question-meta { grid-template-columns: 1fr; }
+    .question-meta-block:first-child { border-right: none; border-bottom: 1px solid var(--border); }
     .tabs { flex-direction: column; }
+    .docs-cta-row { flex-direction: column; }
   }
 </style>
 </head>
@@ -398,133 +199,163 @@
 </header>
 
 <main>
-
-  <!-- Tab switcher -->
   <div class="tabs" role="tablist">
-    <button class="tab-btn active" id="tab-generate" onclick="switchTab('generate')" role="tab" aria-selected="true">Generate a Module</button>
-    <button class="tab-btn" id="tab-modify" onclick="switchTab('modify')" role="tab" aria-selected="false">Modify a Module</button>
+    <button class="tab-btn active" id="tab-generate" onclick="switchTab('generate')" role="tab">Generate a Module</button>
+    <button class="tab-btn" id="tab-modify" onclick="switchTab('modify')" role="tab">Modify a Module</button>
+    <button class="tab-btn" id="tab-docs" onclick="switchTab('docs')" role="tab">Generate Documentation</button>
   </div>
 
-  <!-- GENERATE TAB -->
+  <!-- ═══ GENERATE TAB ═══════════════════════════════════════════════════════ -->
   <div class="tab-panel active" id="panel-generate">
-    <div class="page-title">Generate a DevonWay Module</div>
-    <div class="page-sub">Describe what you need in plain language — Module Expert will generate a complete, importable XML module definition.</div>
+    <div id="g-form-wrap">
+      <div class="page-title">Generate a DevonWay Module</div>
+      <div class="page-sub">Describe what you need — Module Expert will ask a few clarifying questions, then generate a complete, importable XML module definition.</div>
 
-    <form id="generate-form">
-
-      <!-- Customer + Description -->
-      <div class="card">
-        <div class="card-title">Module Description</div>
-        <div class="field-group" style="margin-bottom:16px;">
-          <label for="customerName">Customer Name <span class="hint">optional — used to tailor fields to the customer's industry</span></label>
-          <input type="text" id="customerName" name="customerName" placeholder="e.g. Pacific Gas and Electric, Mayo Clinic, Boeing">
-        </div>
-        <div class="field-group">
-          <label for="description">What should this module do? <span class="required">*</span></label>
-          <textarea id="description" name="description" placeholder="Describe the module's purpose, the data it captures, its workflow process, any business rules, required fields, picklist values, references to other modules, etc. The more detail you provide, the better the generated module will be."></textarea>
-        </div>
-      </div>
-
-      <!-- Module Identity -->
-      <div class="card">
-        <div class="card-title">Module Identity</div>
-        <div class="field-grid">
-          <div class="field-group">
-            <label for="moduleName">Module Name <span class="required">*</span></label>
-            <input type="text" id="moduleName" name="moduleName" placeholder="e.g. CAPA - Corrective Actions">
+      <form id="generate-form">
+        <div class="card">
+          <div class="card-title">Module Description</div>
+          <div class="field-group" style="margin-bottom:16px;">
+            <label for="customerName">Customer Name <span class="hint">optional — used to tailor field design to the customer's industry</span></label>
+            <input type="text" id="customerName" name="customerName" placeholder="e.g. Pacific Gas and Electric, Mayo Clinic, Boeing">
           </div>
           <div class="field-group">
-            <label for="category">Category <span class="required">*</span></label>
-            <input type="text" id="category" name="category" placeholder="e.g. CAPA">
+            <label for="description">What should this module do? <span class="required">*</span></label>
+            <textarea id="description" name="description" placeholder="Describe the module's purpose, the data it captures, its workflow process, any business rules, required fields, picklist values, references to other modules, etc."></textarea>
           </div>
         </div>
-        <div class="field-grid three-col" style="margin-top:16px;">
-          <div class="field-group">
-            <label for="moduleCode">Module Code <span class="required">*</span> <span class="hint">e.g. INVK-ACT</span></label>
-            <input type="text" id="moduleCode" name="moduleCode" placeholder="INVK-XXX" class="mono">
+
+        <div class="card">
+          <div class="card-title">Module Identity</div>
+          <div class="field-grid">
+            <div class="field-group">
+              <label for="moduleName">Module Name <span class="required">*</span></label>
+              <input type="text" id="moduleName" name="moduleName" placeholder="e.g. CAPA - Corrective Actions">
+            </div>
+            <div class="field-group">
+              <label for="category">Category <span class="required">*</span></label>
+              <input type="text" id="category" name="category" placeholder="e.g. CAPA">
+            </div>
           </div>
-          <div class="field-group">
-            <label for="identifierPrefix">Identifier Prefix <span class="required">*</span> <span class="hint">2–5 chars</span></label>
-            <input type="text" id="identifierPrefix" name="identifierPrefix" placeholder="ACT" class="mono" maxlength="5">
-          </div>
-          <div class="field-group" style="justify-content:flex-end;">
-            <label>Workflow Enabled</label>
-            <div class="toggle-row">
-              <label class="toggle">
-                <input type="checkbox" id="hasWorkflow" checked>
-                <div class="toggle-track"></div>
-              </label>
-              <span class="toggle-label" id="workflowLabel">Yes</span>
+          <div class="field-grid three-col" style="margin-top:16px;">
+            <div class="field-group">
+              <label for="moduleCode">Module Code <span class="required">*</span> <span class="hint">e.g. INVK-ACT</span></label>
+              <input type="text" id="moduleCode" name="moduleCode" placeholder="INVK-XXX" class="mono">
+            </div>
+            <div class="field-group">
+              <label for="identifierPrefix">Identifier Prefix <span class="required">*</span> <span class="hint">2–5 chars</span></label>
+              <input type="text" id="identifierPrefix" name="identifierPrefix" placeholder="ACT" class="mono" maxlength="5">
+            </div>
+            <div class="field-group" style="justify-content:flex-end;">
+              <label>Workflow Enabled</label>
+              <div class="toggle-row">
+                <label class="toggle"><input type="checkbox" id="hasWorkflow" checked><div class="toggle-track"></div></label>
+                <span class="toggle-label" id="workflowLabel">Yes</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Environment Settings -->
-      <div class="card">
-        <div class="card-title">Environment Settings</div>
-        <div class="field-grid">
-          <div class="field-group">
-            <label for="sourceArea">Source Area <span class="hint">default: DWAYConfig.INVK</span></label>
-            <input type="text" id="sourceArea" name="sourceArea" value="DWAYConfig.INVK" class="mono">
-          </div>
-          <div class="field-group">
-            <label for="reportingAuthorityCode">Reporting Authority Code <span class="hint">default: RA1</span></label>
-            <input type="text" id="reportingAuthorityCode" name="reportingAuthorityCode" value="RA1" class="mono">
+        <div class="card">
+          <div class="card-title">Environment Settings</div>
+          <div class="field-grid">
+            <div class="field-group">
+              <label for="sourceArea">Source Area <span class="hint">default: DWAYConfig.INVK</span></label>
+              <input type="text" id="sourceArea" name="sourceArea" value="DWAYConfig.INVK" class="mono">
+            </div>
+            <div class="field-group">
+              <label for="reportingAuthorityCode">Reporting Authority Code <span class="hint">default: RA1</span></label>
+              <input type="text" id="reportingAuthorityCode" name="reportingAuthorityCode" value="RA1" class="mono">
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Subscriber Roles -->
-      <div class="card">
-        <div class="card-title">Subscriber Roles</div>
-        <div class="roles-list" id="rolesList"></div>
-        <button type="button" class="add-role-btn" onclick="addRole()">+ Add Role</button>
-      </div>
+        <div class="card">
+          <div class="card-title">Subscriber Roles</div>
+          <div class="roles-list" id="rolesList"></div>
+          <button type="button" class="add-role-btn" onclick="addRole()">+ Add Role</button>
+        </div>
 
-      <button type="submit" class="submit-btn" id="generateBtn">Generate Module XML</button>
-    </form>
+        <button type="submit" class="submit-btn" id="generateBtn">Review &amp; Generate →</button>
+      </form>
+    </div>
 
-    <div class="status-panel" id="generate-status">
-      <div id="generate-status-content"></div>
+    <div id="g-progress-wrap" style="display:none;">
+      <div class="progress-panel" id="g-progress-panel"></div>
     </div>
   </div>
 
-  <!-- MODIFY TAB -->
+  <!-- ═══ MODIFY TAB ════════════════════════════════════════════════════════ -->
   <div class="tab-panel" id="panel-modify">
-    <div class="page-title">Modify a DevonWay Module</div>
-    <div class="page-sub">Upload an existing module XML and describe the changes you want. Module Expert will return the modified XML plus step-by-step instructions for making the same changes manually in Module Builder.</div>
+    <div id="m-form-wrap">
+      <div class="page-title">Modify a DevonWay Module</div>
+      <div class="page-sub">Upload an existing module XML and describe your changes — Module Expert will clarify details, then return the modified XML plus step-by-step manual instructions.</div>
 
-    <form id="modify-form">
-
-      <div class="card">
-        <div class="card-title">Existing Module</div>
-        <div class="field-group">
-          <label for="xmlFile">Module XML File <span class="required">*</span></label>
-          <input type="file" id="xmlFile" name="xmlFile" accept=".xml">
+      <form id="modify-form">
+        <div class="card">
+          <div class="card-title">Existing Module</div>
+          <div class="field-group">
+            <label for="xmlFile">Module XML File <span class="required">*</span></label>
+            <input type="file" id="xmlFile" name="xmlFile" accept=".xml">
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="card-title">Requested Changes</div>
-        <div class="field-group">
-          <label for="changeDescription">Describe the changes you want to make <span class="required">*</span></label>
-          <textarea id="changeDescription" name="changeDescription" style="min-height:180px;" placeholder="e.g. Add a 'Root Cause Category' picklist field with options: Human Error, Equipment Failure, Process Gap, External Factor. Place it in the Analysis region after the 'Root Cause' text field. Make it required. Add a rule that hides this field when Status is 'Draft'."></textarea>
+        <div class="card">
+          <div class="card-title">Requested Changes</div>
+          <div class="field-group">
+            <label for="changeDescription">Describe the changes <span class="required">*</span></label>
+            <textarea id="changeDescription" name="changeDescription" style="min-height:180px;" placeholder="e.g. Add a 'Root Cause Category' picklist field with options: Human Error, Equipment Failure, Process Gap, External Factor. Place it in the Analysis region after the 'Root Cause' text field. Make it required. Add a rule that hides this field when Status is 'Draft'."></textarea>
+          </div>
         </div>
-      </div>
 
-      <button type="submit" class="submit-btn" id="modifyBtn">Apply Changes</button>
-    </form>
+        <button type="submit" class="submit-btn" id="modifyBtn">Review &amp; Apply →</button>
+      </form>
+    </div>
 
-    <div class="status-panel" id="modify-status">
-      <div id="modify-status-content"></div>
+    <div id="m-progress-wrap" style="display:none;">
+      <div class="progress-panel" id="m-progress-panel"></div>
     </div>
   </div>
 
+  <!-- ═══ DOCS TAB ══════════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-docs">
+    <div id="d-form-wrap">
+      <div class="page-title">Generate Module Documentation</div>
+      <div class="page-sub">Upload a DevonWay module XML or ZIP export to generate a complete documentation package — data dictionary, workflow guide, rules reference, test scripts, and more.</div>
+
+      <form id="docs-form">
+        <div class="card">
+          <div class="card-title">Module File</div>
+          <div class="field-group">
+            <label for="docsFile">Module XML or ZIP File <span class="required">*</span></label>
+            <input type="file" id="docsFile" name="module" accept=".xml,.zip">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Customer</div>
+          <div class="field-group">
+            <label for="docsCustomerName">Customer Name <span class="required">*</span> <span class="hint">used to personalize all generated documents</span></label>
+            <input type="text" id="docsCustomerName" name="customerName" placeholder="e.g. Pacific Gas and Electric">
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="docsBtn">Generate Documentation</button>
+      </form>
+    </div>
+
+    <div id="d-progress-wrap" style="display:none;">
+      <div class="progress-panel" id="d-progress-panel"></div>
+    </div>
+  </div>
 </main>
 
 <script>
-// ─── Tab switching ───────────────────────────────────────────────────────────
+// ─── Utilities ────────────────────────────────────────────────────────────────
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Tab switching ────────────────────────────────────────────────────────────
 function switchTab(name) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -532,7 +363,7 @@ function switchTab(name) {
   document.getElementById('panel-' + name).classList.add('active');
 }
 
-// ─── Roles editor ────────────────────────────────────────────────────────────
+// ─── Roles editor ─────────────────────────────────────────────────────────────
 const defaultRoles = [
   { code: 'INVK-A', name: 'Module Admin' },
   { code: 'INVK-C', name: 'Module Coordinator' },
@@ -556,54 +387,140 @@ function renderRoles(roles) {
 }
 
 function getRoles() {
-  const codes = document.querySelectorAll('.role-code');
-  const names = document.querySelectorAll('.role-name');
   const roles = [];
-  for (let i = 0; i < codes.length; i++) {
-    const code = codes[i].value.trim();
-    const name = names[i].value.trim();
+  document.querySelectorAll('.role-code').forEach((el, i) => {
+    const code = el.value.trim();
+    const name = document.querySelectorAll('.role-name')[i].value.trim();
     if (code && name) roles.push({ code, name });
-  }
+  });
   return roles;
 }
 
-function addRole() {
-  const current = getRoles();
-  current.push({ code: '', name: '' });
-  renderRoles(current);
-}
+function addRole() { const r = getRoles(); r.push({ code: '', name: '' }); renderRoles(r); }
+function removeRole(i) { const r = getRoles(); r.splice(i, 1); renderRoles(r); }
 
-function removeRole(i) {
-  const current = getRoles();
-  current.splice(i, 1);
-  renderRoles(current);
-}
-
-function esc(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ─── Workflow toggle ──────────────────────────────────────────────────────────
 document.getElementById('hasWorkflow').addEventListener('change', e => {
   document.getElementById('workflowLabel').textContent = e.target.checked ? 'Yes' : 'No';
 });
-
-// ─── Auto-uppercase ───────────────────────────────────────────────────────────
 document.getElementById('moduleCode').addEventListener('input', e => {
-  const pos = e.target.selectionStart;
-  e.target.value = e.target.value.toUpperCase();
-  e.target.setSelectionRange(pos, pos);
+  const p = e.target.selectionStart; e.target.value = e.target.value.toUpperCase(); e.target.setSelectionRange(p, p);
 });
 document.getElementById('identifierPrefix').addEventListener('input', e => {
-  const pos = e.target.selectionStart;
-  e.target.value = e.target.value.toUpperCase();
-  e.target.setSelectionRange(pos, pos);
+  const p = e.target.selectionStart; e.target.value = e.target.value.toUpperCase(); e.target.setSelectionRange(p, p);
 });
-
-// ─── Init ─────────────────────────────────────────────────────────────────────
 renderRoles(defaultRoles);
 
-// ─── Generate form ────────────────────────────────────────────────────────────
+// ─── State ────────────────────────────────────────────────────────────────────
+let gParams = null;
+let gCustomerContext = null;
+let gQuestions = null;
+let mTempId = null;
+let mChangeDesc = null;
+let mQuestions = null;
+
+// ─── Show/hide helpers ────────────────────────────────────────────────────────
+function showGenerateForm() {
+  document.getElementById('g-form-wrap').style.display = '';
+  document.getElementById('g-progress-wrap').style.display = 'none';
+  document.getElementById('generateBtn').disabled = false;
+  document.getElementById('generateBtn').textContent = 'Review & Generate →';
+}
+
+function showGenerateProgress(html) {
+  document.getElementById('g-form-wrap').style.display = 'none';
+  document.getElementById('g-progress-wrap').style.display = '';
+  document.getElementById('g-progress-panel').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showModifyForm() {
+  document.getElementById('m-form-wrap').style.display = '';
+  document.getElementById('m-progress-wrap').style.display = 'none';
+  document.getElementById('modifyBtn').disabled = false;
+  document.getElementById('modifyBtn').textContent = 'Review & Apply →';
+}
+
+function showModifyProgress(html) {
+  document.getElementById('m-form-wrap').style.display = 'none';
+  document.getElementById('m-progress-wrap').style.display = '';
+  document.getElementById('m-progress-panel').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showDocsProgress(html) {
+  document.getElementById('d-form-wrap').style.display = 'none';
+  document.getElementById('d-progress-wrap').style.display = '';
+  document.getElementById('d-progress-panel').innerHTML = html;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showDocsForm() {
+  document.getElementById('d-form-wrap').style.display = '';
+  document.getElementById('d-progress-wrap').style.display = 'none';
+  document.getElementById('docsBtn').disabled = false;
+  document.getElementById('docsBtn').textContent = 'Generate Documentation';
+}
+
+// ─── Spinner HTML ─────────────────────────────────────────────────────────────
+function spinnerHTML(title, sub) {
+  return `<div class="spinner-state"><div class="spinner"></div><div class="spinner-title">${title}</div><div class="spinner-sub">${sub}</div></div>`;
+}
+
+// ─── Error HTML ───────────────────────────────────────────────────────────────
+function errorHTML(msg, onRetry) {
+  return `<div class="error-state"><div class="done-icon">⚠️</div><div class="done-title">Something went wrong</div><div class="error-box">${esc(msg)}</div><br><button class="submit-btn" style="max-width:200px;margin:0 auto;" onclick="${onRetry}">Try again</button></div>`;
+}
+
+// ─── Questions HTML ───────────────────────────────────────────────────────────
+function questionsHTML(questions, mode) {
+  const actionLabel = mode === 'generate' ? 'Generate Module XML' : 'Apply Changes';
+  const backFn = mode === 'generate' ? 'showGenerateForm()' : 'showModifyForm()';
+  const confirmFn = mode === 'generate' ? 'onGenerateConfirm()' : 'onModifyConfirm()';
+
+  const cards = questions.map((q, i) => `
+    <div class="question-card">
+      <div class="question-header">
+        <div class="question-num">Question ${i + 1} of ${questions.length}</div>
+        <div class="question-text">${esc(q.question)}</div>
+      </div>
+      <div class="question-meta">
+        <div class="question-meta-block">
+          <div class="question-meta-label">💡 Why we're asking</div>
+          <div class="question-meta-text">${esc(q.explanation)}</div>
+        </div>
+        <div class="question-meta-block">
+          <div class="question-meta-label">🤔 What to consider</div>
+          <div class="question-meta-text">${esc(q.thinking)}</div>
+        </div>
+      </div>
+      <div class="question-answer-section">
+        <label class="question-answer-label" for="qa-${mode}-${i}">Your answer — edit or accept as-is:</label>
+        <textarea id="qa-${mode}-${i}" class="question-answer">${esc(q.recommendedAnswer)}</textarea>
+      </div>
+    </div>
+  `).join('');
+
+  return `
+    <div class="questions-intro">
+      <div class="qi-icon">💬</div>
+      <div class="qi-title">A few clarifying questions</div>
+      <div class="qi-sub">We've suggested answers based on your description — edit any that don't fit your needs, then proceed.</div>
+    </div>
+    <div class="questions-body">${cards}</div>
+    <div class="questions-footer">
+      <button class="submit-btn" onclick="${confirmFn}">${actionLabel}</button>
+      <button class="back-link" onclick="${backFn}">← Edit ${mode === 'generate' ? 'form' : 'inputs'}</button>
+    </div>`;
+}
+
+function collectAnswers(mode, questions) {
+  return questions.map((q, i) => ({
+    question: q.question,
+    answer: (document.getElementById(`qa-${mode}-${i}`)?.value || '').trim(),
+  }));
+}
+
+// ─── GENERATE FLOW ────────────────────────────────────────────────────────────
 document.getElementById('generate-form').addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -613,10 +530,6 @@ document.getElementById('generate-form').addEventListener('submit', async e => {
   const moduleCode = document.getElementById('moduleCode').value.trim();
   const identifierPrefix = document.getElementById('identifierPrefix').value.trim();
   const category = document.getElementById('category').value.trim();
-  const hasWorkflow = document.getElementById('hasWorkflow').checked;
-  const sourceArea = document.getElementById('sourceArea').value.trim();
-  const reportingAuthorityCode = document.getElementById('reportingAuthorityCode').value.trim();
-  const subscriberRoles = getRoles();
 
   if (!description) return alert('Please enter a module description.');
   if (!moduleName) return alert('Please enter a module name.');
@@ -624,203 +537,285 @@ document.getElementById('generate-form').addEventListener('submit', async e => {
   if (!identifierPrefix) return alert('Please enter an identifier prefix.');
   if (!category) return alert('Please enter a category.');
 
-  const btn = document.getElementById('generateBtn');
-  btn.disabled = true;
-  btn.textContent = 'Generating…';
+  gParams = {
+    description, moduleName, moduleCode, identifierPrefix, category,
+    hasWorkflow: document.getElementById('hasWorkflow').checked,
+    sourceArea: document.getElementById('sourceArea').value.trim(),
+    reportingAuthorityCode: document.getElementById('reportingAuthorityCode').value.trim(),
+    subscriberRoles: getRoles(),
+    customerName,
+  };
 
-  showGenerateStatus('processing', `Generating <strong>${moduleCode}</strong>…`, 'Claude is building your module definition. This typically takes 30–60 seconds.');
+  document.getElementById('generateBtn').disabled = true;
+  showGenerateProgress(spinnerHTML('Analyzing your module description…', customerName ? `Researching ${esc(customerName)} and preparing clarifying questions…` : 'Preparing clarifying questions…'));
+
+  try {
+    const resp = await fetch('/clarify/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ params: gParams }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed to get questions');
+
+    gQuestions = data.questions;
+    gCustomerContext = data.customerContext || null;
+    showGenerateProgress(questionsHTML(gQuestions, 'generate'));
+  } catch (err) {
+    showGenerateForm();
+    alert('Could not get clarifying questions: ' + err.message);
+  }
+});
+
+async function onGenerateConfirm() {
+  const answers = collectAnswers('generate', gQuestions);
+  showGenerateProgress(spinnerHTML(`Generating ${esc(gParams.moduleCode)}…`, 'Claude is building your module definition. This typically takes 30–60 seconds.'));
 
   try {
     const resp = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customerName, description, moduleName, moduleCode, identifierPrefix, category, hasWorkflow, sourceArea, reportingAuthorityCode, subscriberRoles }),
+      body: JSON.stringify({ ...gParams, customerContext: gCustomerContext, answers }),
     });
-
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({ error: 'Request failed' }));
-      throw new Error(err.error || 'Request failed');
-    }
-
-    const { jobId } = await resp.json();
-    pollGenerateJob(jobId, moduleCode);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Request failed');
+    pollJob(data.jobId, 'generate');
   } catch (err) {
-    showGenerateError(err.message);
-    btn.disabled = false;
-    btn.textContent = 'Generate Module XML';
-  }
-});
-
-function pollGenerateJob(jobId) {
-  const interval = setInterval(async () => {
-    try {
-      const resp = await fetch(`/job/${jobId}`);
-      const data = await resp.json();
-      if (data.status === 'done') {
-        clearInterval(interval);
-        const btn = document.getElementById('generateBtn');
-        btn.disabled = false;
-        btn.textContent = 'Generate Module XML';
-        showGenerateDone(jobId, data.filename);
-      } else if (data.status === 'error') {
-        clearInterval(interval);
-        const btn = document.getElementById('generateBtn');
-        btn.disabled = false;
-        btn.textContent = 'Generate Module XML';
-        showGenerateError(data.error || 'Generation failed');
-      }
-    } catch { /* ignore transient poll errors */ }
-  }, 2500);
-}
-
-function showGenerateStatus(type, title, subtitle) {
-  const panel = document.getElementById('generate-status');
-  panel.style.display = 'block';
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  if (type === 'processing') {
-    document.getElementById('generate-status-content').innerHTML = `
-      <div class="spinner"></div>
-      <div class="status-title">${title}</div>
-      <div class="status-sub">${subtitle}</div>
-    `;
+    showGenerateProgress(errorHTML(err.message, 'onGenerateConfirm()'));
   }
 }
 
-function showGenerateDone(jobId, filename) {
-  const panel = document.getElementById('generate-status');
-  panel.style.display = 'block';
-  document.getElementById('generate-status-content').innerHTML = `
-    <div class="status-icon">✅</div>
-    <div class="status-title">Module Generated!</div>
-    <div class="status-sub">Your XML module definition is ready to import into DevonWay.</div>
-    <a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>
-  `;
-}
-
-function showGenerateError(msg) {
-  const panel = document.getElementById('generate-status');
-  panel.style.display = 'block';
-  document.getElementById('generate-status-content').innerHTML = `
-    <div class="status-icon">⚠️</div>
-    <div class="status-title">Generation Failed</div>
-    <div class="error-box">${esc(msg)}</div>
-  `;
-  document.getElementById('xmlFile').value = '';
-}
-
-// ─── Modify form ──────────────────────────────────────────────────────────────
+// ─── MODIFY FLOW ──────────────────────────────────────────────────────────────
 document.getElementById('modify-form').addEventListener('submit', async e => {
   e.preventDefault();
 
   const fileInput = document.getElementById('xmlFile');
   const changeDescription = document.getElementById('changeDescription').value.trim();
 
-  if (!fileInput.files || !fileInput.files[0]) return alert('Please select an XML file.');
-  if (!changeDescription) return alert('Please describe the changes you want to make.');
+  if (!fileInput.files?.length) return alert('Please select an XML file.');
+  if (!changeDescription) return alert('Please describe the changes.');
+
+  mChangeDesc = changeDescription;
+  document.getElementById('modifyBtn').disabled = true;
+  showModifyProgress(spinnerHTML('Analyzing your module and change request…', 'Reading the existing XML and preparing clarifying questions…'));
 
   const formData = new FormData();
   formData.append('xmlFile', fileInput.files[0]);
   formData.append('changeDescription', changeDescription);
 
-  const btn = document.getElementById('modifyBtn');
-  btn.disabled = true;
-  btn.textContent = 'Applying Changes…';
-
-  showModifyStatus('processing', 'Modifying module…', 'Claude is applying your changes and writing manual steps. This typically takes 30–90 seconds.');
-
   try {
-    const resp = await fetch('/modify', { method: 'POST', body: formData });
+    const resp = await fetch('/clarify/modify', { method: 'POST', body: formData });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed to get questions');
 
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({ error: 'Request failed' }));
-      throw new Error(err.error || 'Request failed');
-    }
-
-    const { jobId } = await resp.json();
-    pollModifyJob(jobId);
+    mTempId = data.tempId;
+    mQuestions = data.questions;
+    showModifyProgress(questionsHTML(mQuestions, 'modify'));
   } catch (err) {
-    showModifyError(err.message);
-    btn.disabled = false;
-    btn.textContent = 'Apply Changes';
+    showModifyForm();
+    document.getElementById('xmlFile').value = '';
+    alert('Could not get clarifying questions: ' + err.message);
   }
 });
 
-function pollModifyJob(jobId) {
+async function onModifyConfirm() {
+  const answers = collectAnswers('modify', mQuestions);
+  showModifyProgress(spinnerHTML('Applying changes…', 'Claude is modifying your module and writing manual steps. This typically takes 30–90 seconds.'));
+
+  try {
+    const resp = await fetch('/modify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tempId: mTempId, changeDescription: mChangeDesc, answers }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Request failed');
+    pollJob(data.jobId, 'modify');
+  } catch (err) {
+    showModifyProgress(errorHTML(err.message, 'onModifyConfirm()'));
+  }
+}
+
+// ─── DOCS FLOW ────────────────────────────────────────────────────────────────
+document.getElementById('docs-form').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  const fileInput = document.getElementById('docsFile');
+  const customerName = document.getElementById('docsCustomerName').value.trim();
+
+  if (!fileInput.files?.length) return alert('Please select a module file.');
+  if (!customerName) return alert('Please enter a customer name.');
+
+  document.getElementById('docsBtn').disabled = true;
+  document.getElementById('docsBtn').textContent = 'Generating…';
+  showDocsProgress(spinnerHTML('Generating documentation…', `Parsing module, researching ${esc(customerName)}, and building ${8} PDF documents. This takes 2–3 minutes.`));
+
+  const formData = new FormData();
+  formData.append('module', fileInput.files[0]);
+  formData.append('customerName', customerName);
+
+  try {
+    const resp = await fetch('/docs/upload', { method: 'POST', body: formData });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Upload failed');
+    pollJob(data.jobId, 'docs');
+  } catch (err) {
+    showDocsForm();
+    document.getElementById('docsFile').value = '';
+    alert('Could not start documentation generation: ' + err.message);
+  }
+});
+
+async function startDocsFromJob(sourceJobId, mode) {
+  const inputId = mode === 'generate' ? 'g-docs-customer' : 'm-docs-customer';
+  const statusId = mode === 'generate' ? 'g-docs-status' : 'm-docs-status';
+  const customerName = document.getElementById(inputId).value.trim();
+  if (!customerName) { alert('Please enter a customer name.'); return; }
+
+  document.getElementById(statusId).innerHTML = `<div class="spinner-state" style="padding:16px 0;"><div class="spinner" style="width:28px;height:28px;margin-bottom:10px;"></div><div style="font-size:13px;color:var(--muted);">Generating documentation… this takes 2–3 minutes.</div></div>`;
+
+  try {
+    const resp = await fetch('/docs/from-job', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourceJobId, customerName }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed');
+    pollDocsInline(data.jobId, statusId);
+  } catch (err) {
+    document.getElementById(statusId).innerHTML = `<div class="error-box">${esc(err.message)}</div>`;
+  }
+}
+
+function pollDocsInline(jobId, statusId) {
   const interval = setInterval(async () => {
     try {
       const resp = await fetch(`/job/${jobId}`);
       const data = await resp.json();
       if (data.status === 'done') {
         clearInterval(interval);
-        const btn = document.getElementById('modifyBtn');
-        btn.disabled = false;
-        btn.textContent = 'Apply Changes';
-        showModifyDone(jobId, data.filename, data.explanation);
+        document.getElementById(statusId).innerHTML = docsResultsHTML(data.sessionId, data.files, data.moduleName);
       } else if (data.status === 'error') {
         clearInterval(interval);
-        const btn = document.getElementById('modifyBtn');
-        btn.disabled = false;
-        btn.textContent = 'Apply Changes';
-        showModifyError(data.error || 'Modification failed');
+        document.getElementById(statusId).innerHTML = `<div class="error-box">${esc(data.error || 'Documentation generation failed')}</div>`;
       }
-    } catch { /* ignore transient poll errors */ }
+    } catch {}
+  }, 3000);
+}
+
+// ─── Job polling ──────────────────────────────────────────────────────────────
+function pollJob(jobId, mode) {
+  const interval = setInterval(async () => {
+    try {
+      const resp = await fetch(`/job/${jobId}`);
+      const data = await resp.json();
+
+      if (data.status === 'done') {
+        clearInterval(interval);
+        if (mode === 'generate') showGenerateDone(jobId, data.filename);
+        else if (mode === 'modify') showModifyDone(jobId, data.filename, data.explanation);
+        else if (mode === 'docs') showDocsDone(data.sessionId, data.files, data.moduleName);
+      } else if (data.status === 'error') {
+        clearInterval(interval);
+        const retryFn = mode === 'generate' ? 'onGenerateConfirm()' : mode === 'modify' ? 'onModifyConfirm()' : 'showDocsForm()';
+        if (mode === 'generate') showGenerateProgress(errorHTML(data.error || 'Generation failed', retryFn));
+        else if (mode === 'modify') showModifyProgress(errorHTML(data.error || 'Modification failed', retryFn));
+        else showDocsProgress(errorHTML(data.error || 'Documentation failed', retryFn));
+      }
+    } catch {}
   }, 2500);
 }
 
-function showModifyStatus(type, title, subtitle) {
-  const panel = document.getElementById('modify-status');
-  panel.style.display = 'block';
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  if (type === 'processing') {
-    document.getElementById('modify-status-content').innerHTML = `
-      <div class="spinner"></div>
-      <div class="status-title">${title}</div>
-      <div class="status-sub">${subtitle}</div>
-    `;
-  }
+// ─── Done states ──────────────────────────────────────────────────────────────
+function showGenerateDone(jobId, filename) {
+  const customerName = gParams?.customerName || '';
+  showGenerateProgress(`
+    <div class="done-state">
+      <div class="done-icon">✅</div>
+      <div class="done-title">Module Generated!</div>
+      <div class="done-sub">Your XML module definition is ready to import into DevonWay.</div>
+      <a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>
+      <div class="docs-cta">
+        <div class="docs-cta-title">📄 Generate documentation for this module?</div>
+        <div class="docs-cta-row">
+          <input type="text" id="g-docs-customer" placeholder="Customer name…" value="${esc(customerName)}">
+          <button class="docs-cta-btn" onclick="startDocsFromJob('${jobId}', 'generate')">Generate Docs →</button>
+        </div>
+        <div id="g-docs-status"></div>
+      </div>
+    </div>
+    <div style="padding:0 28px 24px;">
+      <button class="back-link" onclick="showGenerateForm()">← Generate another module</button>
+    </div>
+  `);
 }
 
 function showModifyDone(jobId, filename, explanation) {
-  const panel = document.getElementById('modify-status');
-  panel.style.display = 'block';
-
   const stepsHtml = explanation ? `
     <div class="steps-panel">
       <div class="steps-toggle" id="steps-toggle" onclick="toggleSteps()">
         <span>📋 Manual Steps — How to make these changes in Module Builder</span>
         <span class="steps-toggle-arrow">▼</span>
       </div>
-      <div class="steps-body" id="steps-body">
-        <pre>${esc(explanation)}</pre>
+      <div class="steps-body" id="steps-body"><pre>${esc(explanation)}</pre></div>
+    </div>` : '';
+
+  showModifyProgress(`
+    <div class="done-state">
+      <div class="done-icon">✅</div>
+      <div class="done-title">Changes Applied!</div>
+      <div class="done-sub">Your modified module is ready. Import the new XML or follow the manual steps below.</div>
+      <a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>
+      ${stepsHtml}
+      <div class="docs-cta">
+        <div class="docs-cta-title">📄 Generate documentation for this modified module?</div>
+        <div class="docs-cta-row">
+          <input type="text" id="m-docs-customer" placeholder="Customer name…">
+          <button class="docs-cta-btn" onclick="startDocsFromJob('${jobId}', 'modify')">Generate Docs →</button>
+        </div>
+        <div id="m-docs-status"></div>
       </div>
     </div>
-  ` : '';
-
-  document.getElementById('modify-status-content').innerHTML = `
-    <div class="status-icon">✅</div>
-    <div class="status-title">Changes Applied!</div>
-    <div class="status-sub">Your modified module is ready. You can import the new XML or follow the manual steps below.</div>
-    <a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>
-    ${stepsHtml}
-  `;
+    <div style="padding:0 28px 24px;">
+      <button class="back-link" onclick="showModifyForm()">← Modify another module</button>
+    </div>
+  `);
 }
 
 function toggleSteps() {
-  const toggle = document.getElementById('steps-toggle');
-  const body = document.getElementById('steps-body');
-  toggle.classList.toggle('open');
-  body.classList.toggle('open');
+  document.getElementById('steps-toggle').classList.toggle('open');
+  document.getElementById('steps-body').classList.toggle('open');
 }
 
-function showModifyError(msg) {
-  const panel = document.getElementById('modify-status');
-  panel.style.display = 'block';
-  document.getElementById('modify-status-content').innerHTML = `
-    <div class="status-icon">⚠️</div>
-    <div class="status-title">Modification Failed</div>
-    <div class="error-box">${esc(msg)}</div>
-  `;
-  document.getElementById('xmlFile').value = '';
+function showDocsDone(sessionId, files, moduleName) {
+  showDocsProgress(docsResultsHTML(sessionId, files, moduleName) + `
+    <div style="padding:0 28px 24px;">
+      <button class="back-link" onclick="showDocsForm()">← Generate documentation for another module</button>
+    </div>
+  `);
+}
+
+function docsResultsHTML(sessionId, files, moduleName) {
+  const fileItems = (files || []).map(f => `
+    <div class="docs-file">
+      <div class="docs-file-icon">📄</div>
+      <div class="docs-file-info">
+        <div class="docs-file-title">${esc(f.title)}</div>
+        <div class="docs-file-desc">${esc(f.description)}</div>
+      </div>
+      <a href="/docs/download/${esc(sessionId)}/${esc(f.name)}" class="docs-file-dl" download="${esc(f.name)}">Download ⬇</a>
+    </div>
+  `).join('');
+
+  return `
+    <div class="docs-results">
+      <div class="done-icon">📚</div>
+      <div class="docs-results-title">${moduleName ? esc(moduleName) + ' — ' : ''}Documentation Ready!</div>
+      <div class="docs-results-sub">${files?.length || 0} PDF documents generated. Download individually or grab them all as a ZIP.</div>
+      <div class="docs-file-list">${fileItems}</div>
+      <a href="/docs/download-all/${esc(sessionId)}" class="docs-dl-all" download="module-documentation.zip">⬇ Download All as ZIP</a>
+    </div>`;
 }
 </script>
 </body>

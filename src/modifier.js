@@ -3,7 +3,7 @@ const { SYSTEM_PROMPT_BASE } = require('./generatorPrompt');
 
 const client = new Anthropic();
 
-async function modifyModule(xmlContent, changeDescription) {
+async function modifyModule(xmlContent, changeDescription, answers) {
   const message = await client.messages.create({
     model: 'claude-opus-4-5',
     max_tokens: 32000,
@@ -48,7 +48,7 @@ ${xmlContent}
 
 Requested changes:
 ${changeDescription}
-
+${Array.isArray(answers) && answers.length > 0 ? `\nDeveloper clarifications:\n${answers.map(a => `Q: ${a.question}\nA: ${a.answer}`).join('\n\n')}` : ''}
 Apply the changes and return the complete modified XML plus manual steps as instructed.`,
       },
     ],
