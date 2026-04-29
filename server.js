@@ -6,7 +6,7 @@ const multer = require('multer');
 const archiver = require('archiver');
 const { v4: uuidv4 } = require('uuid');
 const { generateModule } = require('./src/generator');
-const { modifyModule } = require('./src/modifier');
+const { getModifySteps, generateModifiedXml } = require('./src/modifier');
 const { researchCustomer } = require('./src/researcher');
 const { getClarifyingQuestions } = require('./src/clarifier');
 const { parseModuleFile } = require('./src/parser');
@@ -180,15 +180,39 @@ app.post('/modify', (req, res) => {
 });
 
 async function runModifyJob(jobId, xmlContent, changeDescription, answers) {
-  console.log(`[${jobId}] Modifying module...`);
-  const { xml, explanation } = await modifyModule(xmlContent, changeDescription, answers);
+  console.log(`[${jobId}] Generating modify steps...`);
+  const explanation = await getModifySteps(xmlContent, changeDescription, answers);
+  jobs[jobId] = { ...jobs[jobId], status: 'done', explanation, xmlContent, changeDescription, answers };
+  console.log(`[${jobId}] Modify steps done.`);
+}
 
+app.post('/modify/generate-xml', (req, res) => {
+  const { jobId } = req.body;
+  if (!jobId) return res.status(400).json({ error: 'jobId is required.' });
+
+  const sourceJob = jobs[jobId];
+  if (!sourceJob || sourceJob.status !== 'done') {
+    return res.status(400).json({ error: 'Job not found or not complete.' });
+  }
+
+  const xmlJobId = uuidv4();
+  jobs[xmlJobId] = { status: 'processing', createdAt: Date.now() };
+  res.json({ jobId: xmlJobId });
+
+  const { xmlContent, changeDescription, answers } = sourceJob;
+  runXmlJob(xmlJobId, xmlContent, changeDescription, answers).catch(err => {
+    console.error(`[${xmlJobId}] XML gen failed:`, err.message);
+    jobs[xmlJobId] = { ...jobs[xmlJobId], status: 'error', error: err.message };
+  });
+});
+
+async function runXmlJob(jobId, xmlContent, changeDescription, answers) {
+  console.log(`[${jobId}] Generating modified XML...`);
+  const xml = await generateModifiedXml(xmlContent, changeDescription, answers);
   const codeMatch = xml.match(/ModuleCode="([^"]+)"/);
-  const code = codeMatch ? codeMatch[1] : 'Modified';
-  const filename = `Module.${code}.xml`;
-
-  jobs[jobId] = { ...jobs[jobId], status: 'done', xml, filename, explanation };
-  console.log(`[${jobId}] Modify done. XML: ${xml.length} chars`);
+  const filename = `Module.${codeMatch ? codeMatch[1] : 'Modified'}.xml`;
+  jobs[jobId] = { ...jobs[jobId], status: 'done', xml, filename };
+  console.log(`[${jobId}] XML done. ${xml.length} chars`);
 }
 
 // ─── Docs ─────────────────────────────────────────────────────────────────────

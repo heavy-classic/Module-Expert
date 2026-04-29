@@ -620,7 +620,7 @@ document.getElementById('modify-form').addEventListener('submit', async e => {
 
 async function onModifyConfirm() {
   const answers = collectAnswers('modify', mQuestions);
-  showModifyProgress(spinnerHTML('Applying changes…', 'Claude is modifying your module and writing manual steps. This typically takes 30–90 seconds.'));
+  showModifyProgress(spinnerHTML('Analyzing changes…', 'Claude is writing manual steps for your changes. This typically takes 15–30 seconds.'));
 
   try {
     const resp = await fetch('/modify', {
@@ -714,13 +714,15 @@ function pollJob(jobId, mode) {
       if (data.status === 'done') {
         clearInterval(interval);
         if (mode === 'generate') showGenerateDone(jobId, data.filename);
-        else if (mode === 'modify') showModifyDone(jobId, data.filename, data.explanation);
+        else if (mode === 'modify') showModifyDone(jobId, data.explanation);
+        else if (mode === 'xml') showXmlReady(jobId, data.filename);
         else if (mode === 'docs') showDocsDone(data.sessionId, data.files, data.moduleName);
       } else if (data.status === 'error') {
         clearInterval(interval);
         const retryFn = mode === 'generate' ? 'onGenerateConfirm()' : mode === 'modify' ? 'onModifyConfirm()' : 'showDocsForm()';
         if (mode === 'generate') showGenerateProgress(errorHTML(data.error || 'Generation failed', retryFn));
         else if (mode === 'modify') showModifyProgress(errorHTML(data.error || 'Modification failed', retryFn));
+        else if (mode === 'xml') showXmlError(data.error || 'XML generation failed.');
         else showDocsProgress(errorHTML(data.error || 'Documentation failed', retryFn));
       }
     } catch {}
@@ -751,23 +753,26 @@ function showGenerateDone(jobId, filename) {
   `);
 }
 
-function showModifyDone(jobId, filename, explanation) {
+function showModifyDone(jobId, explanation) {
   const stepsHtml = explanation ? `
     <div class="steps-panel">
-      <div class="steps-toggle" id="steps-toggle" onclick="toggleSteps()">
+      <div class="steps-toggle open" id="steps-toggle" onclick="toggleSteps()">
         <span>📋 Manual Steps — How to make these changes in Module Builder</span>
         <span class="steps-toggle-arrow">▼</span>
       </div>
-      <div class="steps-body" id="steps-body"><pre>${esc(explanation)}</pre></div>
+      <div class="steps-body open" id="steps-body"><pre>${esc(explanation)}</pre></div>
     </div>` : '';
 
   showModifyProgress(`
     <div class="done-state">
       <div class="done-icon">✅</div>
-      <div class="done-title">Changes Applied!</div>
-      <div class="done-sub">Your modified module is ready. Import the new XML or follow the manual steps below.</div>
-      <a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>
+      <div class="done-title">Here's how to apply your changes</div>
+      <div class="done-sub">Follow the steps below in DevonWay Module Builder, or generate a modified XML file to import.</div>
       ${stepsHtml}
+      <div id="xml-cta" style="margin-top:16px;">
+        <button class="download-btn" style="background:#334e80;" onclick="requestXml('${jobId}')">⚙ Generate Modified XML</button>
+        <div id="xml-status" style="margin-top:10px;font-size:13px;color:#555;"></div>
+      </div>
       <div class="docs-cta">
         <div class="docs-cta-title">📄 Generate documentation for this modified module?</div>
         <div class="docs-cta-row">
@@ -781,6 +786,41 @@ function showModifyDone(jobId, filename, explanation) {
       <button class="back-link" onclick="showModifyForm()">← Modify another module</button>
     </div>
   `);
+}
+
+async function requestXml(sourceJobId) {
+  const btn = document.querySelector('#xml-cta button');
+  const status = document.getElementById('xml-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Generating XML…';
+  status.textContent = 'This may take 30–90 seconds for large modules.';
+  try {
+    const resp = await fetch('/modify/generate-xml', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jobId: sourceJobId }),
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Failed to start XML generation.');
+    pollJob(data.jobId, 'xml');
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = '⚙ Generate Modified XML';
+    status.textContent = err.message;
+  }
+}
+
+function showXmlReady(jobId, filename) {
+  const cta = document.getElementById('xml-cta');
+  if (!cta) return;
+  cta.innerHTML = `<a href="/download/${jobId}" class="download-btn" download="${esc(filename)}">⬇ Download ${esc(filename)}</a>`;
+}
+
+function showXmlError(msg) {
+  const status = document.getElementById('xml-status');
+  const btn = document.querySelector('#xml-cta button');
+  if (status) status.textContent = msg;
+  if (btn) { btn.disabled = false; btn.textContent = '⚙ Generate Modified XML'; }
 }
 
 function toggleSteps() {
