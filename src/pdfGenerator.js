@@ -1,4 +1,38 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs');
+const path = require('path');
+
+// Render overrides HOME and PUPPETEER_CACHE_DIR at runtime, so we scan known
+// locations directly instead of relying on env vars to find the Chrome binary.
+function getChromePath() {
+  const candidates = [
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    process.env.PUPPETEER_CACHE_DIR,
+    '/app/.cache/puppeteer',  // set during Docker build
+    '/root/.cache/puppeteer',
+    path.join(process.env.HOME || '', '.cache', 'puppeteer'),
+  ].filter(Boolean);
+
+  for (const base of candidates) {
+    // If it's a direct executable path, check it
+    try {
+      if (fs.existsSync(base) && fs.statSync(base).isFile()) return base;
+    } catch {}
+
+    // Otherwise treat as a cache directory and search for the chrome binary
+    try {
+      const chromeDir = path.join(base, 'chrome');
+      if (!fs.existsSync(chromeDir)) continue;
+      for (const version of fs.readdirSync(chromeDir)) {
+        for (const bin of ['chrome-linux64/chrome', 'chrome-linux/chrome']) {
+          const p = path.join(chromeDir, version, bin);
+          if (fs.existsSync(p)) return p;
+        }
+      }
+    } catch {}
+  }
+  return undefined; // fall back to puppeteer's default resolution
+}
 
 const THEME = {
   navy: '#1B3A6B',
@@ -33,8 +67,12 @@ const DOC_TYPES = [
 ];
 
 async function generateAllPDFs(data, customerContext = {}) {
+  const chromePath = getChromePath();
+  console.log(`[puppeteer] Chrome path: ${chromePath || '(puppeteer default)'}`);
+
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: chromePath,
     args: [
       '--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
       '--disable-extensions', '--disable-background-networking', '--disable-sync',
