@@ -71,7 +71,7 @@ ${answersSection}
 Generate the complete, valid, importable DevonWay module XML. Include all fields, regions, layouts, rules, and workflow elements appropriate for this module based on the description, customer context, and developer clarifications above.`;
 
   const stream = client.messages.stream({
-    model: 'claude-opus-4-5',
+    model: 'claude-sonnet-4-6',
     max_tokens: 32000,
     system: [
       {

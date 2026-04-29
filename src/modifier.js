@@ -25,7 +25,7 @@ async function modifyModule(xmlContent, changeDescription, answers) {
 
   // Step 1: generate the modified XML only
   const xmlStream = client.messages.stream({
-    model: 'claude-opus-4-5',
+    model: 'claude-sonnet-4-6',
     max_tokens: 32000,
     system: [
       { type: 'text', text: SYSTEM_PROMPT_BASE, cache_control: { type: 'ephemeral' } },
