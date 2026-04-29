@@ -339,73 +339,50 @@ Inside an R-type ScreenLayout:
     </ModuleWorkflowSegment>
 </ModuleWorkflow>
 
-## MODULE ROLES (always at end, in this order: INVK-A, INVK-C, INVK-D, INVK-P)
+## MODULE ROLES (always at end, one per provided subscriber role)
 
+Generate one <ModuleRole> per subscriber role provided. Use the role name to infer appropriate permissions.
+
+Available flags and their meaning:
+- SuperuserFlag: Can see all objects regardless of assignment (Y for admin/coordinator/manager/supervisor roles; N for basic user/read-only roles)
+- EditObjectsFlag: Can edit objects they didn't create (Y for debug/developer/admin roles only)
+- DeleteObjectsFlag: Can permanently delete objects (Y for debug/developer/admin roles only)
+- AllwSrchFrAllObjctsFlag: Can search all objects system-wide (Y for admin/coordinator/manager; N for participant/viewer/read-only)
+- HdCrssRfrncsRgnFlag: Hide cross-references region (Y for most roles; N for read-only/viewer)
+- HideTasksRegionFlag: Hide tasks region header (Y for most roles; N if role needs to see raw task data)
+- HideWorkflowRegionFlag: Hide workflow details region (Y for most roles; N for admin/debug)
+- HideHistoryFlag: Hide change history (N = show history for most roles; Y to hide for basic roles)
+- HideDependentItemsFlag: Hide dependent items region (Y for most; N for admin/coordinator)
+- ShowInMaintainPersonsFlag: Role appears in user management (Y for roles users are assigned to; N for debug/system roles)
+- AllowInitiateItemsFlag: Can create new records (Y for roles that should create records; N for read-only/viewer)
+- AllowInitiateRefItemsFlag: Can create reference data (Y for admin/coordinator; N for basic participants)
+- AllowSearchFlag: Can search the module (Y for all roles except highly restricted)
+- AllowAlternateAccessFlag: Alternate access mode (N for almost all roles)
+
+Role name inference guide:
+- Admin / Administrator / Superuser → SuperuserFlag=Y, AllwSrchFrAllObjctsFlag=Y, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideWorkflowRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=Y, AllowSearchFlag=Y
+- Coordinator / Manager / Supervisor / Lead → SuperuserFlag=Y, AllwSrchFrAllObjctsFlag=Y, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideWorkflowRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=Y, AllowSearchFlag=Y
+- Debug / Developer / System → SuperuserFlag=Y, EditObjectsFlag=Y, DeleteObjectsFlag=Y, AllwSrchFrAllObjctsFlag=Y, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideWorkflowRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=N, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=Y, AllowSearchFlag=Y
+- Participant / User / Member / Assignee / Contributor → SuperuserFlag=Y, AllwSrchFrAllObjctsFlag=Y, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=Y, AllowSearchFlag=Y
+- Viewer / Read Only / Auditor / Observer → SuperuserFlag=N, AllwSrchFrAllObjctsFlag=N, HdCrssRfrncsRgnFlag=N, HideTasksRegionFlag=N, HideDependentItemsFlag=N, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=N, AllowSearchFlag=Y
+- Initiator / Creator / Requester → SuperuserFlag=N, AllwSrchFrAllObjctsFlag=N, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=Y, AllowInitiateRefItemsFlag=N, AllowSearchFlag=Y
+- Approver / Reviewer / Approvals → SuperuserFlag=Y, AllwSrchFrAllObjctsFlag=Y, HdCrssRfrncsRgnFlag=Y, HideTasksRegionFlag=Y, HideDependentItemsFlag=Y, ShowInMaintainPersonsFlag=Y, AllowInitiateItemsFlag=N, AllowInitiateRefItemsFlag=N, AllowSearchFlag=Y
+
+Only include flags that are set to Y (omit flags that are N, except HideHistoryFlag which should always be included).
+
+Example output for a role:
 <ModuleRole>
-    <ModuleRoleCode>INVK-A</ModuleRoleCode>
-    <ModuleRoleName>Module Admin</ModuleRoleName>
+    <ModuleRoleCode>{RoleCode}</ModuleRoleCode>
+    <ModuleRoleName>{RoleName}</ModuleRoleName>
     <LanguageCode>AMENG</LanguageCode>
     <SuperuserFlag>Y</SuperuserFlag>
-    <AllwSrchFrAllObjctsFlag>Y</AllwSrchFrAllObjctsFlag>
-    <HdCrssRfrncsRgnFlag>Y</HdCrssRfrncsRgnFlag>
-    <HideTasksRegionFlag>Y</HideTasksRegionFlag>
-    <HideWorkflowRegionFlag>Y</HideWorkflowRegionFlag>
-    <HideHistoryFlag>N</HideHistoryFlag>
-    <HideDependentItemsFlag>Y</HideDependentItemsFlag>
-    <ShowInMaintainPersonsFlag>Y</ShowInMaintainPersonsFlag>
-    <AllowInitiateItemsFlag>N</AllowInitiateItemsFlag>
-    <AllowInitiateRefItemsFlag>Y</AllowInitiateRefItemsFlag>
-    <AllowSearchFlag>Y</AllowSearchFlag>
-    <AllowAlternateAccessFlag>N</AllowAlternateAccessFlag>
-</ModuleRole>
-<ModuleRole>
-    <ModuleRoleCode>INVK-C</ModuleRoleCode>
-    <ModuleRoleName>Module Coordinator</ModuleRoleName>
-    <LanguageCode>AMENG</LanguageCode>
-    <SuperuserFlag>Y</SuperuserFlag>
-    <AllwSrchFrAllObjctsFlag>Y</AllwSrchFrAllObjctsFlag>
-    <HdCrssRfrncsRgnFlag>Y</HdCrssRfrncsRgnFlag>
-    <HideTasksRegionFlag>Y</HideTasksRegionFlag>
-    <HideWorkflowRegionFlag>Y</HideWorkflowRegionFlag>
-    <HideHistoryFlag>N</HideHistoryFlag>
-    <HideDependentItemsFlag>Y</HideDependentItemsFlag>
-    <ShowInMaintainPersonsFlag>Y</ShowInMaintainPersonsFlag>
-    <AllowInitiateItemsFlag>N</AllowInitiateItemsFlag>
-    <AllowInitiateRefItemsFlag>Y</AllowInitiateRefItemsFlag>
-    <AllowSearchFlag>Y</AllowSearchFlag>
-    <AllowAlternateAccessFlag>N</AllowAlternateAccessFlag>
-</ModuleRole>
-<ModuleRole>
-    <ModuleRoleCode>INVK-D</ModuleRoleCode>
-    <ModuleRoleName>Debug</ModuleRoleName>
-    <LanguageCode>AMENG</LanguageCode>
-    <SuperuserFlag>Y</SuperuserFlag>
-    <EditObjectsFlag>Y</EditObjectsFlag>
-    <AllwSrchFrAllObjctsFlag>Y</AllwSrchFrAllObjctsFlag>
-    <HdCrssRfrncsRgnFlag>Y</HdCrssRfrncsRgnFlag>
-    <HideTasksRegionFlag>Y</HideTasksRegionFlag>
-    <HideWorkflowRegionFlag>Y</HideWorkflowRegionFlag>
-    <HideHistoryFlag>N</HideHistoryFlag>
-    <HideDependentItemsFlag>Y</HideDependentItemsFlag>
-    <DeleteObjectsFlag>Y</DeleteObjectsFlag>
-    <ShowInMaintainPersonsFlag>N</ShowInMaintainPersonsFlag>
-    <AllowInitiateItemsFlag>N</AllowInitiateItemsFlag>
-    <AllowInitiateRefItemsFlag>Y</AllowInitiateRefItemsFlag>
-    <AllowSearchFlag>Y</AllowSearchFlag>
-    <AllowAlternateAccessFlag>N</AllowAlternateAccessFlag>
-</ModuleRole>
-<ModuleRole>
-    <ModuleRoleCode>INVK-P</ModuleRoleCode>
-    <ModuleRoleName>Participant</ModuleRoleName>
-    <LanguageCode>AMENG</LanguageCode>
-    <SuperuserFlag>Y</SuperuserFlag>
+    <!-- only include flags set to Y, plus HideHistoryFlag -->
     <AllwSrchFrAllObjctsFlag>Y</AllwSrchFrAllObjctsFlag>
     <HdCrssRfrncsRgnFlag>Y</HdCrssRfrncsRgnFlag>
     <HideTasksRegionFlag>Y</HideTasksRegionFlag>
     <HideHistoryFlag>N</HideHistoryFlag>
     <HideDependentItemsFlag>Y</HideDependentItemsFlag>
     <ShowInMaintainPersonsFlag>Y</ShowInMaintainPersonsFlag>
-    <AllowInitiateItemsFlag>N</AllowInitiateItemsFlag>
     <AllowInitiateRefItemsFlag>Y</AllowInitiateRefItemsFlag>
     <AllowSearchFlag>Y</AllowSearchFlag>
     <AllowAlternateAccessFlag>N</AllowAlternateAccessFlag>
