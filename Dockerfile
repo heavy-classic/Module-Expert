@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-# Install Chrome shared library dependencies (not chromium itself — puppeteer downloads its own Chrome)
+# Install Chrome shared library dependencies
 RUN apt-get update && apt-get install -y \
     ca-certificates \
     fonts-freefont-ttf \
@@ -23,8 +23,12 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+# Pin the cache dir to /app so it's identical at build time and at runtime.
+# Without this, npm ci writes Chrome to $HOME/.cache/puppeteer (/root),
+# but Render overrides HOME=/opt/render at runtime, so puppeteer can't find it.
+ENV PUPPETEER_CACHE_DIR=/app/.cache/puppeteer
+
 COPY package*.json ./
-# puppeteer downloads the correct Chrome version automatically during npm ci
 RUN npm ci --omit=dev
 
 COPY . .
