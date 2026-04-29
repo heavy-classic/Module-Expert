@@ -1,7 +1,9 @@
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const { generateModule } = require('./src/generator');
+const { modifyModule } = require('./src/modifier');
 const { researchCustomer } = require('./src/researcher');
 const { sendUsageNotification } = require('./src/mailer');
 
@@ -9,7 +11,9 @@ const app = express();
 app.use(express.json({ limit: '1mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// job store: jobId → { status, xml?, filename?, error?, createdAt }
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } });
+
+// job store: jobId → { status, xml?, filename?, explanation?, error?, createdAt }
 const jobs = {};
 
 // Clean up old jobs every 15 mins
@@ -69,13 +73,13 @@ app.post('/generate', (req, res) => {
     customerName: (customerName || '').trim(),
   };
 
-  runJob(jobId, params, ip, userAgent).catch(err => {
+  runGenerateJob(jobId, params, ip, userAgent).catch(err => {
     console.error(`[${jobId}] Job failed:`, err.message);
     jobs[jobId] = { ...jobs[jobId], status: 'error', error: err.message };
   });
 });
 
-async function runJob(jobId, params, ip, userAgent) {
+async function runGenerateJob(jobId, params, ip, userAgent) {
   console.log(`[${jobId}] Generating module: ${params.moduleCode} — ${params.moduleName}`);
 
   let customerContext = null;
@@ -107,12 +111,55 @@ async function runJob(jobId, params, ip, userAgent) {
   }).catch(() => {});
 }
 
+// POST /modify — start modification job
+app.post('/modify', upload.single('xmlFile'), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: 'XML file is required.' });
+
+  const changeDescription = (req.body.changeDescription || '').trim();
+  if (!changeDescription) return res.status(400).json({ error: 'Change description is required.' });
+
+  const xmlContent = req.file.buffer.toString('utf-8');
+  if (!xmlContent.includes('<SubscriberModule>') && !xmlContent.includes('<SubscriberModule ')) {
+    return res.status(400).json({ error: 'Uploaded file does not appear to be a valid DevonWay module XML.' });
+  }
+
+  const jobId = uuidv4();
+  jobs[jobId] = { status: 'processing', createdAt: Date.now() };
+
+  res.json({ jobId });
+
+  runModifyJob(jobId, xmlContent, changeDescription).catch(err => {
+    console.error(`[${jobId}] Modify job failed:`, err.message);
+    jobs[jobId] = { ...jobs[jobId], status: 'error', error: err.message };
+  });
+});
+
+async function runModifyJob(jobId, xmlContent, changeDescription) {
+  console.log(`[${jobId}] Modifying module...`);
+
+  const { xml, explanation } = await modifyModule(xmlContent, changeDescription);
+
+  const codeMatch = xml.match(/ModuleCode="([^"]+)"/);
+  const code = codeMatch ? codeMatch[1] : 'Modified';
+  const filename = `Module.${code}.xml`;
+
+  jobs[jobId] = {
+    ...jobs[jobId],
+    status: 'done',
+    xml,
+    filename,
+    explanation,
+  };
+
+  console.log(`[${jobId}] Modify done. XML: ${xml.length} chars, explanation: ${explanation.length} chars`);
+}
+
 // GET /job/:jobId — poll for status
 app.get('/job/:jobId', (req, res) => {
   const job = jobs[req.params.jobId];
   if (!job) return res.status(404).json({ error: 'Job not found' });
   if (job.status === 'error') return res.json({ status: 'error', error: job.error });
-  if (job.status === 'done') return res.json({ status: 'done', filename: job.filename });
+  if (job.status === 'done') return res.json({ status: 'done', filename: job.filename, explanation: job.explanation || null });
   return res.json({ status: 'processing' });
 });
 
